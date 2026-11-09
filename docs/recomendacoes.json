@@ -22,6 +22,21 @@
       "nota": "Aumentou Caixa Seguridade (de 5% para 10%) e reduziu B3 (de 12,5% para 7,5%)."
     },
     {
+      "id": "xp-top-acoes", "casa": "XP", "nome": "Top Ações", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": true,
+      "url": "https://www.moneytimes.com.br/xp-tira-bancos-da-carteira-e-reforca-carteira-defensiva-para-novembro-confira-as-acoes-jcav/",
+      "itens": [
+        {"ticker": "PETR4", "peso": 0.10}, {"ticker": "EMBJ3", "peso": 0.10}, {"ticker": "SBSP3", "peso": 0.10},
+        {"ticker": "JBSS32", "peso": 0.075}, {"ticker": "RDOR3", "peso": 0.075}, {"ticker": "AXIA3", "peso": 0.075},
+        {"ticker": "ITUB4", "peso": 0.075}, {"ticker": "PRIO3", "peso": 0.05}, {"ticker": "GGBR4", "peso": 0.05},
+        {"ticker": "VALE3", "peso": 0.05}, {"ticker": "WEGE3", "peso": 0.05}, {"ticker": "TOTS3", "peso": 0.05},
+        {"ticker": "IGTI11", "peso": 0.05}, {"ticker": "CURY3", "peso": 0.05}, {"ticker": "CXSE3", "peso": 0.05}
+      ],
+      "entradas": ["JBSS32", "WEGE3", "CXSE3"],
+      "saidas": [{"ticker": "BPAC11", "motivo": "reduzir exposição ao ciclo doméstico"}, {"ticker": "ROXO34", "motivo": "reduzir exposição ao ciclo doméstico"}],
+      "nota": "Fonte secundária (Money Times). Carteira mais defensiva: Rede D'Or subiu de 5% para 7,5% e Iguatemi caiu de 10% para 5%. Em outubro caiu 7%, contra queda de 9,9% do Ibovespa."
+    },
+    {
       "id": "btg-10sim", "casa": "BTG Pactual", "nome": "10SIM", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
       "data": "2026-11", "completa": true,
       "url": "https://renovainvest.com.br/blog/carteira-recomendada-acoes-btg/",
@@ -140,7 +155,29 @@
       "url": "https://investimentos.santander.com.br/materiais/relatorios/Fundos-Imobiliarios.pdf",
       "itens": [{"ticker": "KNUQ11", "peso": null}],
       "entradas": ["KNUQ11"], "saidas": [],
-      "nota": "Incluiu o Kinea Unique HY CDI e reduziu outros pesos para aumentar a exposição a recebíveis."
+      "nota": "Incluiu o Kinea Unique HY CDI e reduziu os pesos de KNCR11, TEPP11 e XPML11 para aumentar a exposição a recebíveis."
+    },
+    {
+      "id": "itaubba-fii", "casa": "Itaú BBA", "nome": "Renda com Imóveis", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": true,
+      "url": "https://www.ion.itau/assessoria/casa-de-analise/",
+      "itens": [
+        {"ticker": "HGRU11", "peso": null}, {"ticker": "HSML11", "peso": null}, {"ticker": "XPML11", "peso": null},
+        {"ticker": "BRCO11", "peso": null}, {"ticker": "BTLG11", "peso": null}, {"ticker": "KNRI11", "peso": null},
+        {"ticker": "PVBI11", "peso": null}, {"ticker": "ITRI11", "peso": null}, {"ticker": "KNHF11", "peso": null},
+        {"ticker": "KNIP11", "peso": null}, {"ticker": "KNUQ11", "peso": null}, {"ticker": "KNCR11", "peso": null},
+        {"ticker": "KNHY11", "peso": 0.02}
+      ],
+      "entradas": ["KNHY11"], "saidas": [],
+      "nota": "13 fundos: tijolo 52%, ativos financeiros 33,5% e multiestratégia 14,5%. KNHY11 entrou com 2%, com redução de ITRI11 e KNHF11. Demais pesos não divulgados na página."
+    },
+    {
+      "id": "xp-fii", "casa": "XP", "nome": "Fundamentalista de FIIs", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": false,
+      "url": "https://www.infomoney.com.br/onde-investir/carteira-recomendada-fundos-imobiliarios-novembro-2026/",
+      "itens": [{"ticker": "MXRF11", "peso": null}, {"ticker": "MCCI11", "peso": null}, {"ticker": "HSML11", "peso": null}],
+      "entradas": ["MXRF11"], "saidas": [],
+      "nota": "Relatório da XP é exclusivo para clientes; trocas segundo a InfoMoney. Incluiu MXRF11, aumentou MCCI11, reduziu HSML11 em 1 ponto e diminuiu a exposição a fundos de tijolo."
     }
   ],
   "consensos": [
@@ -163,6 +200,16 @@
         {"ticker": "CPLE3", "indicacoes": 5}, {"ticker": "ITUB4", "indicacoes": 5}, {"ticker": "VIVT3", "indicacoes": 5},
         {"ticker": "VALE3", "indicacoes": 4}
       ]
+    },
+    {
+      "titulo": "Fundos imobiliários mais recomendados", "fonte": "InfoMoney", "data": "2026-11-09", "total_casas": 7,
+      "url": "https://www.infomoney.com.br/onde-investir/carteira-recomendada-fundos-imobiliarios-novembro-2026/",
+      "casas": "BB Investimentos, BTG Pactual, Genial, Itaú BBA, Santander, Terra e XP",
+      "itens": [
+        {"ticker": "KNCR11", "indicacoes": 6}, {"ticker": "BTLG11", "indicacoes": 4}, {"ticker": "HSML11", "indicacoes": 4},
+        {"ticker": "KNHF11", "indicacoes": 4}, {"ticker": "XPML11", "indicacoes": 4}
+      ],
+      "nota": "FIIs de papel (recebíveis) voltam à preferência após as eleições."
     },
     {
       "titulo": "Ranking de indicações", "fonte": "ADVFN", "data": "2026-11", "total_casas": null,
