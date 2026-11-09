@@ -28,7 +28,7 @@ py rastreador.py comprar ITUB4 10 40.53
 
 O painel online fica em https://claude.ai/artifact/LbMLiD38LDH98kLpbKdt1p. Ele é privado: só você vê, até compartilhar pela própria página. Tem cinco abas: Relatório semanal, Carteira, Aporte do mês, Recomendações e Método.
 
-- O mesmo site também é publicado no GitHub Pages (repositório `painel-investimentos`, pasta `docs/`), para abrir no celular.
+- O mesmo site também está no GitHub Pages, para abrir no celular: https://gonzattilucas.github.io/painel-investimentos/ (repositório https://github.com/gonzattilucas/painel-investimentos, pasta `docs/`).
 - `py rastreador.py exportar` gera `docs/dados.json` (o `diario` já faz isso).
 - `docs/recomendacoes.json` guarda as carteiras das corretoras, cada uma marcada com horizonte `longo` (comprar para manter) ou `curto` (carteira tática semanal, visando venda). A aba Corretoras calcula as compras e vendas em comum a partir dele.
 - **Atualização automática:** a tarefa agendada "Atualizar Painel de Investimentos" do Claude roda segunda, quarta e sexta às 10h. Ela pesquisa as carteiras das corretoras, atualiza `recomendacoes.json`, roda o `diario`, envia ao GitHub (`publicar_site.ps1`) e republica o painel no claude.ai. O app do Claude precisa estar aberto; se estiver fechado no horário, a tarefa roda quando ele abrir.
