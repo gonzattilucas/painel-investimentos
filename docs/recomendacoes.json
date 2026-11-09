@@ -1,0 +1,197 @@
+{
+  "versao": 2,
+  "periodo": "novembro de 2026",
+  "atualizado_em": "2026-11-09",
+  "regras": {
+    "horizonte": "longo = carteira mensal de fundamentos ou dividendos (comprar para manter); curto = carteira tática semanal, com preço-alvo e stop (comprar visando vender em dias ou semanas).",
+    "compra_comum": "ação presente em 2 ou mais carteiras, ou incluída por 2 ou mais casas no período.",
+    "venda_comum": "ação retirada de 2 ou mais carteiras no período."
+  },
+  "carteiras": [
+    {
+      "id": "xp-dividendos", "casa": "XP", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11-07", "completa": true,
+      "url": "https://www.moneytimes.com.br/quer-dividendos-em-novembro-xp-revela-suas-11-acoes-favoritas-para-o-mes-jcav/",
+      "itens": [
+        {"ticker": "PETR4", "peso": 0.15}, {"ticker": "AXIA3", "peso": 0.125}, {"ticker": "CXSE3", "peso": 0.10},
+        {"ticker": "ITUB4", "peso": 0.10}, {"ticker": "ALOS3", "peso": 0.10}, {"ticker": "CPLE3", "peso": 0.10},
+        {"ticker": "B3SA3", "peso": 0.075}, {"ticker": "VALE3", "peso": 0.075}, {"ticker": "CSMG3", "peso": 0.075},
+        {"ticker": "PRIO3", "peso": 0.05}, {"ticker": "VIVT3", "peso": 0.05}
+      ],
+      "entradas": [], "saidas": [],
+      "nota": "Aumentou Caixa Seguridade (de 5% para 10%) e reduziu B3 (de 12,5% para 7,5%)."
+    },
+    {
+      "id": "btg-10sim", "casa": "BTG Pactual", "nome": "10SIM", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": true,
+      "url": "https://renovainvest.com.br/blog/carteira-recomendada-acoes-btg/",
+      "itens": [
+        {"ticker": "PETR4", "peso": 0.15}, {"ticker": "SBSP3", "peso": 0.10}, {"ticker": "EMBJ3", "peso": 0.10},
+        {"ticker": "RDOR3", "peso": 0.10}, {"ticker": "CXSE3", "peso": 0.10}, {"ticker": "ENEV3", "peso": 0.10},
+        {"ticker": "GGBR4", "peso": 0.10}, {"ticker": "UGPA3", "peso": 0.10}, {"ticker": "MOTV3", "peso": 0.10},
+        {"ticker": "TIMS3", "peso": 0.05}
+      ],
+      "entradas": ["CXSE3", "UGPA3", "TIMS3"],
+      "saidas": [{"ticker": "ITUB4"}, {"ticker": "CURY3", "motivo": "inflação de custos pode pressionar as margens"}, {"ticker": "AXIA3"}],
+      "nota": "Fonte secundária (Renova Invest). Petrobras é a posição mais barata da carteira."
+    },
+    {
+      "id": "itaubba-acoes", "casa": "Itaú BBA", "nome": "Carteira recomendada", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": false,
+      "url": "https://br.advfn.com/jornal/2026/11/carteiras-recomendadas-de-acoes-para-novembro-de-2026-e-rank",
+      "itens": [
+        {"ticker": "PETR4", "peso": 0.15}, {"ticker": "SBSP3", "peso": null}, {"ticker": "AXIA3", "peso": null},
+        {"ticker": "MULT3", "peso": null}, {"ticker": "CPFE3", "peso": null}, {"ticker": "CURY3", "peso": null},
+        {"ticker": "WEGE3", "peso": null}, {"ticker": "EMBJ3", "peso": null}, {"ticker": "RDOR3", "peso": null}
+      ],
+      "entradas": [], "saidas": [],
+      "nota": "Segundo resumo da ADVFN. Pesos de 5% a 15%; a lista também cita XP Inc."
+    },
+    {
+      "id": "itau-dividendos", "casa": "Itaú", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": false,
+      "url": "https://www.itau.com.br/investimentos/carteiras-recomendadas/carteira-dividendos-novembro-2026/",
+      "itens": [{"ticker": "TIMS3", "peso": null}, {"ticker": "CPFE3", "peso": null}],
+      "entradas": ["TIMS3"], "saidas": [{"ticker": "B3SA3"}],
+      "nota": "Composição completa não obtida (site bloqueia leitura automática). CPFL reforçada como posição defensiva."
+    },
+    {
+      "id": "bb-5mais", "casa": "BB Investimentos", "nome": "Carteira 5+", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-10-30", "completa": true,
+      "url": "https://investalk.bb.com.br/noticias/onde-investir/carteira-5-novembro-26",
+      "itens": [
+        {"ticker": "ITUB4", "peso": null}, {"ticker": "PETR4", "peso": null}, {"ticker": "VALE3", "peso": null},
+        {"ticker": "CXSE3", "peso": null}, {"ticker": "VBBR3", "peso": null}
+      ],
+      "entradas": ["CXSE3", "VBBR3"], "saidas": [{"ticker": "BPAC11"}, {"ticker": "TEND3"}],
+      "nota": "Pesos não divulgados no texto."
+    },
+    {
+      "id": "bb-fundamentalista", "casa": "BB Investimentos", "nome": "Fundamentalista", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-10-30", "completa": false,
+      "url": "https://investalk.bb.com.br/noticias/onde-investir/carteira-5-novembro-26",
+      "itens": [{"ticker": "CXSE3", "peso": null}, {"ticker": "WEGE3", "peso": null}],
+      "entradas": ["CXSE3", "WEGE3"], "saidas": [{"ticker": "BPAC11"}, {"ticker": "TEND3"}],
+      "nota": "Só as trocas foram divulgadas."
+    },
+    {
+      "id": "safra-top10", "casa": "Safra", "nome": "Top 10 Ações", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": false,
+      "url": "https://oespecialista.safra.com.br/carteira-safra-novembro-2026-ajustes-dividendos/",
+      "itens": [{"ticker": "SUZB3", "peso": null}, {"ticker": "ENEV3", "peso": null}, {"ticker": "TIMS3", "peso": null}, {"ticker": "ITSA4", "peso": null}],
+      "entradas": ["SUZB3", "ENEV3", "TIMS3", "ITSA4"],
+      "saidas": [{"ticker": "GGBR4"}, {"ticker": "CPLE3"}, {"ticker": "RDOR3"}, {"ticker": "B3SA3"}],
+      "nota": "Só as trocas foram obtidas: Suzano no lugar de Gerdau, Eneva no de Copel, TIM no de Rede D'Or e Itaúsa no de B3. Ênfase em dividendos."
+    },
+    {
+      "id": "agora-dividendos", "casa": "Ágora", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": true,
+      "url": "https://www.moneytimes.com.br/retornos-de-ate-12-5-acoes-para-ter-na-carteira-de-dividendos-de-novembro-segundo-a-agora-investimentos-lmrs/",
+      "itens": [
+        {"ticker": "CSMG3", "peso": null}, {"ticker": "ITUB4", "peso": null}, {"ticker": "CXSE3", "peso": null},
+        {"ticker": "ISAE4", "peso": null}, {"ticker": "VIVT3", "peso": null}
+      ],
+      "entradas": ["VIVT3"], "saidas": [{"ticker": "ALOS3"}],
+      "nota": "Pesos não divulgados."
+    },
+    {
+      "id": "agora-arrojada", "casa": "Ágora", "nome": "Arrojada", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": true,
+      "url": "https://br.advfn.com/jornal/2026/11/carteiras-recomendadas-de-acoes-para-novembro-de-2026-e-rank",
+      "itens": [
+        {"ticker": "SBSP3", "peso": 0.20}, {"ticker": "EMBJ3", "peso": 0.20}, {"ticker": "PINE4", "peso": 0.20},
+        {"ticker": "RDOR3", "peso": 0.20}, {"ticker": "SUZB3", "peso": 0.20}
+      ],
+      "entradas": [], "saidas": [],
+      "nota": "Segundo resumo da ADVFN."
+    },
+    {
+      "id": "terra-semanal", "casa": "Terra", "nome": "Carteira semanal", "classe": "ACAO", "horizonte": "curto", "frequencia": "semanal",
+      "data": "2026-11-08", "completa": true,
+      "url": "https://www.seudinheiro.com/2026/mercados/carteira-da-terra-sobe-56-em-12-meses-veja-as-5-acoes-recomendadas-para-esta-semana-lefp/",
+      "itens": [
+        {"ticker": "BBSE3", "peso": 0.20}, {"ticker": "HYPE3", "peso": 0.20}, {"ticker": "VIVT3", "peso": 0.20},
+        {"ticker": "AXIA3", "peso": 0.20}, {"ticker": "ITUB4", "peso": 0.20}
+      ],
+      "entradas": ["ITUB4", "AXIA3"],
+      "saidas": [{"ticker": "SUZB3", "motivo": "atingiu o preço-alvo de R$ 52,30"}, {"ticker": "MBRF3", "motivo": "acionou o stop loss"}],
+      "nota": "Seleção tática para superar o Ibovespa na semana. Ativos saem ao atingir o preço-alvo ou o stop. Alta de 56% em 12 meses, contra 8% do Ibovespa."
+    },
+    {
+      "id": "btg-fii", "casa": "BTG Pactual", "nome": "Fundos imobiliários", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11-03", "completa": true,
+      "url": "https://www.moneytimes.com.br/dividendos-de-115-15-fundos-imobiliarios-fiis-para-ter-na-carteira-em-novembro-segundo-o-btg-igdl/",
+      "itens": [
+        {"ticker": "KNCR11", "peso": 0.15, "segmento": "Recebíveis (CDI)"}, {"ticker": "KNIP11", "peso": 0.14, "segmento": "Recebíveis (IPCA)"},
+        {"ticker": "BTLG11", "peso": 0.13, "segmento": "Logística"}, {"ticker": "MCCI11", "peso": 0.085, "segmento": "Recebíveis"},
+        {"ticker": "TRXF11", "peso": 0.07, "segmento": "Renda urbana"}, {"ticker": "BTCI11", "peso": 0.06, "segmento": "Recebíveis"},
+        {"ticker": "KNHF11", "peso": 0.06, "segmento": "Hedge fund"}, {"ticker": "VISC11", "peso": 0.06, "segmento": "Shoppings"},
+        {"ticker": "VILG11", "peso": 0.055, "segmento": "Logística"}, {"ticker": "PVBI11", "peso": 0.05, "segmento": "Lajes"},
+        {"ticker": "BRCR11", "peso": 0.045, "segmento": "Lajes"}, {"ticker": "HGLG11", "peso": 0.03, "segmento": "Logística"},
+        {"ticker": "BRCO11", "peso": 0.025, "segmento": "Logística"}, {"ticker": "GZIT11", "peso": 0.02, "segmento": "Shoppings"},
+        {"ticker": "HSML11", "peso": 0.02, "segmento": "Shoppings"}
+      ],
+      "entradas": [], "saidas": [{"ticker": "RBRY11"}],
+      "nota": "GZIT11 perdeu 0,5 ponto percentual. Prioridade para recebíveis de menor risco; a carteira rendeu o equivalente a 11,5% ao ano em outubro."
+    },
+    {
+      "id": "santander-fii", "casa": "Santander", "nome": "Fundos imobiliários", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11", "completa": false,
+      "url": "https://investimentos.santander.com.br/materiais/relatorios/Fundos-Imobiliarios.pdf",
+      "itens": [{"ticker": "KNUQ11", "peso": null}],
+      "entradas": ["KNUQ11"], "saidas": [],
+      "nota": "Incluiu o Kinea Unique HY CDI e reduziu outros pesos para aumentar a exposição a recebíveis."
+    }
+  ],
+  "consensos": [
+    {
+      "titulo": "Ações mais recomendadas (geral)", "fonte": "InfoMoney / Economatica", "data": "2026-11-04", "total_casas": 10,
+      "url": "https://www.infomoney.com.br/onde-investir/acoes-recomendadas-novembro-2026/",
+      "casas": "Ágora, Andbank, Ativa, BB Investimentos, BTG Pactual, Genial, Planner, Terra, Santander e XP",
+      "itens": [
+        {"ticker": "PETR4", "indicacoes": 8}, {"ticker": "SBSP3", "indicacoes": 8}, {"ticker": "ITUB4", "indicacoes": 7},
+        {"ticker": "EMBJ3", "indicacoes": 6}, {"ticker": "CXSE3", "indicacoes": 6}
+      ],
+      "nota": "Vale e Rede D'Or saíram do topo em relação a outubro."
+    },
+    {
+      "titulo": "Ações de dividendos mais recomendadas", "fonte": "InfoMoney / Economatica", "data": "2026-11-05", "total_casas": 10,
+      "url": "https://www.infomoney.com.br/onde-investir/acoes-dividendos-recomendadas-novembro-2026/",
+      "casas": "Ágora, Andbank, Ativa, BB Investimentos, BTG Pactual, Genial, Itaú BBA, Santander, Terra e XP",
+      "itens": [
+        {"ticker": "PETR4", "indicacoes": 7}, {"ticker": "ALOS3", "indicacoes": 6}, {"ticker": "AXIA3", "indicacoes": 5},
+        {"ticker": "CPLE3", "indicacoes": 5}, {"ticker": "ITUB4", "indicacoes": 5}, {"ticker": "VIVT3", "indicacoes": 5},
+        {"ticker": "VALE3", "indicacoes": 4}
+      ]
+    },
+    {
+      "titulo": "Ranking de indicações", "fonte": "ADVFN", "data": "2026-11", "total_casas": null,
+      "url": "https://br.advfn.com/jornal/2026/11/carteiras-recomendadas-de-acoes-para-novembro-de-2026-e-rank",
+      "itens": [
+        {"ticker": "PETR4", "indicacoes": 8}, {"ticker": "SBSP3", "indicacoes": 6}, {"ticker": "WEGE3", "indicacoes": 6},
+        {"ticker": "EMBJ3", "indicacoes": 5}, {"ticker": "ITUB4", "indicacoes": 5}
+      ]
+    }
+  ],
+  "sites": [
+    {"nome": "Status Invest", "url": "https://statusinvest.com.br", "tipo": "Dados",
+     "forte": "Indicadores de ações e FIIs, filtros avançados, histórico de proventos. Gratuito e sem cadastro.",
+     "limite": "Só versão web.", "uso": "Filtrar por P/L, P/VP, DY, ROE e dívida."},
+    {"nome": "Investidor10", "url": "https://investidor10.com.br", "tipo": "Dados",
+     "forte": "Rankings, comparador de até 5 ativos, gestão de carteira e IR.",
+     "limite": "Parte paga.", "uso": "Comparar candidatos lado a lado."},
+    {"nome": "Funds Explorer", "url": "https://www.fundsexplorer.com.br", "tipo": "Dados",
+     "forte": "Foco em FIIs: indicadores, comunicados e relatórios gerenciais.",
+     "limite": "Relatórios pagos.", "uso": "Acompanhar vacância e comunicados dos FIIs."},
+    {"nome": "XP Conteúdos", "url": "https://conteudos.xpi.com.br/carteiras-recomendadas/", "tipo": "Recomendações",
+     "forte": "Carteiras mensais abertas e bem documentadas.", "limite": "Uma só casa.", "uso": "Ler a tese de cada ativo."},
+    {"nome": "Genial Analisa", "url": "https://analisa.genialinvestimentos.com.br/", "tipo": "Recomendações",
+     "forte": "Carteiras gratuitas de ações, dividendos, small caps e FIIs.", "limite": "Uma só casa.", "uso": "Segunda opinião."},
+    {"nome": "InfoMoney e Money Times", "url": "https://www.infomoney.com.br/onde-investir/", "tipo": "Consenso",
+     "forte": "Levantamento mensal do que várias corretoras recomendam.", "limite": "Mostra a escolha, não o motivo.",
+     "uso": "Ver o que se repete entre as casas."},
+    {"nome": "Seu Dinheiro", "url": "https://www.seudinheiro.com", "tipo": "Curto prazo",
+     "forte": "Publica a carteira semanal da Terra, com preço-alvo e stop.", "limite": "Estratégia tática, mais arriscada.",
+     "uso": "Acompanhar as ideias de curto prazo."}
+  ]
+}

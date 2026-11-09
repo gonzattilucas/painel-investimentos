@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Investimentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: cabecalho com abas por hash; cada aba e uma coluna de paineis, resumo antes do detalhe. */
+:root{
+  --bg:#f3f4f1; --panel:#ffffff; --ink:#18211d; --muted:#5c6862; --line:#dde2dc; --soft:#eef1ec;
+  --accent:#1d5d8a; --s-ibov:#a8661f; --s-ifix:#6a58a8;
+  --pos:#1c7a3d; --neg:#b3312a; --warn:#9a6400; --warn-bg:#fbf1dc; --pos-bg:#e3f2e7; --neg-bg:#f8e3e1;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101513; --panel:#171e1a; --ink:#e3eae5; --muted:#94a29a; --line:#29332d; --soft:#1e2621;
+  --accent:#6db2e3; --s-ibov:#e2a45c; --s-ifix:#a796e6;
+  --pos:#5fc683; --neg:#f2786c; --warn:#e3aa45; --warn-bg:#2e2513; --pos-bg:#16291d; --neg-bg:#2e1a18;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#101513; --panel:#171e1a; --ink:#e3eae5; --muted:#94a29a; --line:#29332d; --soft:#1e2621;
+  --accent:#6db2e3; --s-ibov:#e2a45c; --s-ifix:#a796e6;
+  --pos:#5fc683; --neg:#f2786c; --warn:#e3aa45; --warn-bg:#2e2513; --pos-bg:#16291d; --neg-bg:#2e1a18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header{background:var(--panel);border-bottom:1px solid var(--line)}
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px;padding-top:20px}
+h1{font:600 26px/1.15 var(--f-display);margin:0;letter-spacing:.01em;text-wrap:balance}
+.sub{color:var(--muted);font-size:13px}
+nav{display:flex;gap:4px;overflow-x:auto;margin-top:14px}
+nav a{padding:10px 14px;color:var(--muted);text-decoration:none;font-weight:500;border-bottom:2px solid transparent;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+main{padding:20px 0 48px}
+section.view{display:none;flex-direction:column;gap:16px}
+section.view.on{display:flex}
+h2{font:600 18px/1.25 var(--f-display);margin:0 0 10px;text-wrap:balance}
+h3{font:600 15px/1.3 var(--f-body);margin:0 0 6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;border-top:3px solid var(--line)}
+.kpi.k-cart{border-top-color:var(--accent)} .kpi.k-ibov{border-top-color:var(--s-ibov)} .kpi.k-ifix{border-top-color:var(--s-ifix)}
+.kpi .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.kpi .val{font:500 28px/1.2 var(--f-num);margin:4px 0 2px}
+.kpi .det{font-size:13px;color:var(--muted)}
+.num,td.n,th.n{font-family:var(--f-num);font-variant-numeric:tabular-nums;text-align:right}
+.pos{color:var(--pos)} .neg{color:var(--neg)} .muted{color:var(--muted)}
+.tbl{overflow-x:auto;margin:0 -16px;padding:0 16px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-weight:500;font-size:12px;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.tk{font-weight:600}
+td.tk small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.chip{display:inline-block;font-size:12px;line-height:1.3;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted);margin:1px 2px 1px 0;white-space:nowrap}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.pos{background:var(--pos-bg);color:var(--pos)}
+.chip.neg{background:var(--neg-bg);color:var(--neg)}
+.chip.mine{background:var(--accent);color:var(--panel)}
+.heat{font-family:var(--f-num);text-align:right;border-radius:4px}
+ul.leitura{margin:0;padding-left:18px;max-width:72ch} ul.leitura li{margin:4px 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.chart{position:relative;width:100%}
+.chart svg{display:block;width:100%}
+.chart text{fill:var(--muted);font:11px var(--f-num)}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 9px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);display:none;white-space:nowrap}
+.tip b{font-family:var(--f-num);font-weight:500}
+.bar{height:8px;background:var(--soft);border-radius:4px;position:relative;min-width:80px}
+.bar > span{position:absolute;top:0;bottom:0;border-radius:4px}
+.bar .alvo{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.mover{display:grid;grid-template-columns:70px 1fr 74px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mover:last-child{border-bottom:0}
+.mover b{font-weight:600}
+.aviso{border-left:3px solid var(--warn);background:var(--warn-bg);padding:10px 14px;border-radius:0 6px 6px 0;font-size:14px;max-width:90ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.casa{display:flex;flex-direction:column;gap:8px}
+.casa .meta{font-size:12px;color:var(--muted)}
+.wl{display:grid;grid-template-columns:64px 1fr 54px;gap:8px;align-items:center;font-size:13px;padding:2px 0}
+code,.cmd{font-family:var(--f-num);font-size:13px;background:var(--soft);border-radius:4px;padding:1px 5px}
+.cmd{display:block;padding:10px 12px;overflow-x:auto;white-space:nowrap}
+.prose{max-width:72ch} .prose p{margin:0 0 10px} .prose ol,.prose ul{margin:0 0 10px;padding-left:20px} .prose li{margin:4px 0}
+.estado{padding:40px 16px;text-align:center;color:var(--muted)}
+footer{color:var(--muted);font-size:12px;padding:0 0 32px}
+@media (max-width:480px){.kpi .val{font-size:24px} h1{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Painel de Investimentos</h1>
+        <div class="sub" id="subtitulo">Carregando os dados…</div>
+      </div>
+      <div class="sub" id="gerado"></div>
+    </div>
+    <nav aria-label="Seções">
+      <a href="#semana">Relatório semanal</a>
+      <a href="#carteira">Carteira</a>
+      <a href="#aporte">Aporte do mês</a>
+      <a href="#recomendacoes">Corretoras</a>
+      <a href="#metodo">Método</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="conteudo">
+  <div class="estado" id="estado">Carregando os dados…</div>
+
+  <!-- RELATORIO SEMANAL -->
+  <section class="view" id="v-semana">
+    <div class="kpis" id="kpis"></div>
+    <div class="panel">
+      <h2>Leitura da semana</h2>
+      <ul class="leitura" id="leitura"></ul>
+    </div>
+    <div class="panel">
+      <h2>Desempenho acumulado em 26 semanas</h2>
+      <div class="legend" id="leg-acum"></div>
+      <div class="chart" id="ch-acum"></div>
+      <div class="sub" style="margin-top:6px">Base 100 no início do período. Carteira e IFIX com proventos reinvestidos. O Ibovespa é índice de preço.</div>
+    </div>
+    <div class="grid g2">
+      <div class="panel">
+        <h2>Maiores altas da semana</h2>
+        <div id="altas"></div>
+      </div>
+      <div class="panel">
+        <h2>Maiores quedas da semana</h2>
+        <div id="quedas"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Semana a semana</h2>
+      <div class="tbl"><table id="t-semanas"></table></div>
+    </div>
+    <div class="grid g2">
+      <div class="panel">
+        <h2>Proventos com data-com nos últimos 35 dias</h2>
+        <div class="tbl"><table id="t-prov"></table></div>
+      </div>
+      <div class="panel">
+        <h2>Alertas</h2>
+        <div id="alertas"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTEIRA -->
+  <section class="view" id="v-carteira">
+    <div class="kpis" id="kpis-cart"></div>
+    <div class="panel">
+      <h2>Alocação por classe</h2>
+      <div id="aloc"></div>
+    </div>
+    <div class="panel">
+      <h2>Meus ativos</h2>
+      <div class="tbl"><table id="t-ativos"></table></div>
+    </div>
+    <div class="panel">
+      <h2>Lista de observação</h2>
+      <div class="tbl"><table id="t-obs"></table></div>
+    </div>
+  </section>
+
+  <!-- APORTE -->
+  <section class="view" id="v-aporte">
+    <div class="kpis" id="kpis-aporte"></div>
+    <div class="panel">
+      <h2>Sugestão de compra para o aporte padrão</h2>
+      <div class="tbl"><table id="t-aporte"></table></div>
+    </div>
+    <div class="panel prose">
+      <h2>Como o cálculo funciona</h2>
+      <p>O valor vai, cota a cota, para o ativo que está proporcionalmente mais abaixo do peso-alvo que você definiu em <code>carteira.json</code>. Ativos esticados (mais de <span id="lim-mm"></span> acima da média de 200 dias) e FIIs com rendimento de 12 meses abaixo de <span id="dy-min"></span> recebem metade da prioridade.</p>
+      <p>Para outro valor, rode no seu computador:</p>
+      <span class="cmd">py rastreador.py aporte --valor 1500</span>
+      <p style="margin-top:10px">Depois de comprar, registre a compra para o painel acompanhar sua posição:</p>
+      <span class="cmd">py rastreador.py comprar ITUB4 3 40.53</span>
+    </div>
+    <div class="aviso">Este é um cálculo mecânico de rebalanceamento a partir dos alvos que você definiu. Não é recomendação de investimento.</div>
+  </section>
+
+  <!-- RECOMENDACOES -->
+  <section class="view" id="v-recomendacoes">
+    <div class="aviso" id="rec-aviso"></div>
+    <div class="kpis" id="kpis-rec"></div>
+    <div class="panel">
+      <h2>Compras em comum entre as corretoras</h2>
+      <div class="sub" id="regra-compra" style="margin-bottom:8px"></div>
+      <div class="tbl"><table id="t-compras"></table></div>
+    </div>
+    <div class="grid g2">
+      <div class="panel">
+        <h2>Vendas e saídas das carteiras</h2>
+        <div class="sub" id="regra-venda" style="margin-bottom:8px"></div>
+        <div class="tbl"><table id="t-vendas"></table></div>
+      </div>
+      <div class="panel">
+        <h2>Curto prazo: carteiras táticas</h2>
+        <div id="curto"></div>
+      </div>
+    </div>
+    <h2 style="margin:8px 0 0">Rankings de consenso publicados</h2>
+    <div class="cards" id="consensos"></div>
+    <h2 style="margin:8px 0 0">Carteiras analisadas</h2>
+    <div class="cards" id="casas"></div>
+    <div class="panel">
+      <h2>Onde pesquisar</h2>
+      <div class="tbl"><table id="t-sites"></table></div>
+    </div>
+  </section>
+
+  <!-- METODO -->
+  <section class="view" id="v-metodo">
+    <div class="aviso">Não sou consultor nem analista credenciado pela CVM. Este método é educativo. Confirme seu perfil de investidor na corretora e, se puder, converse com um consultor CVM ou um planejador CFP.</div>
+    <div class="grid g2">
+      <div class="panel prose">
+        <h2>Antes de começar</h2>
+        <ol>
+          <li><b>Reserva de emergência:</b> de 6 a 12 meses de gastos em Tesouro Selic ou CDB de liquidez diária, fora da carteira de ações e FIIs.</li>
+          <li><b>Divisão entre classes:</b> escolha as faixas do seu perfil e ajuste <code>alvo_classes</code> no <code>carteira.json</code>.</li>
+        </ol>
+        <div class="tbl"><table>
+          <tr><th>Perfil (ilustrativo)</th><th class="n">Renda fixa</th><th class="n">FIIs</th><th class="n">Ações BR</th><th class="n">Exterior</th></tr>
+          <tr><td>Conservador</td><td class="n">70–80%</td><td class="n">10–15%</td><td class="n">5–10%</td><td class="n">0–5%</td></tr>
+          <tr><td>Moderado</td><td class="n">45–55%</td><td class="n">15–20%</td><td class="n">20–25%</td><td class="n">5–10%</td></tr>
+          <tr><td>Arrojado</td><td class="n">20–30%</td><td class="n">15–20%</td><td class="n">35–45%</td><td class="n">10–20%</td></tr>
+        </table></div>
+      </div>
+      <div class="panel prose">
+        <h2>Regras de diversificação</h2>
+        <ul>
+          <li><b>Ações:</b> de 8 a 15 empresas, em pelo menos 5 setores, no máximo 10–15% em cada uma. Setores perenes (bancos, energia, saneamento, seguros, telecom) como base. Petróleo e mineração são cíclicos: posições menores.</li>
+          <li><b>FIIs:</b> de 8 a 12 fundos, no máximo 15% em cada. Misture papel (CDI e IPCA) com tijolo (logística, shoppings, lajes). Prefira fundos grandes e líquidos, com P/VP perto de 1 e vacância baixa.</li>
+          <li><b>Rendimento muito acima dos pares</b> depois de uma queda forte da cota costuma ser sinal de risco. Leia o relatório gerencial antes.</li>
+          <li><b>Aportes abaixo de R$ 2 mil por mês:</b> de 8 a 10 ativos no total deixam a carteira mais equilibrada.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="panel prose">
+        <h2>Rotina</h2>
+        <h3>Toda sexta-feira (este relatório)</h3>
+        <ul>
+          <li>Compare a carteira com o Ibovespa e o IFIX. Uma semana ruim não muda a tese.</li>
+          <li>Leia os alertas. Para ativo com queda forte, procure o fato relevante na página de RI.</li>
+        </ul>
+        <h3>Uma vez por mês</h3>
+        <ol>
+          <li>Rode o aporte com o valor do mês somado aos proventos recebidos.</li>
+          <li>Compre e registre com <code>comprar</code>.</li>
+          <li>Veja o consenso das corretoras. Revise um ativo só se ele sair de todas as carteiras por vários meses.</li>
+        </ol>
+        <h3>A cada seis meses</h3>
+        <ul>
+          <li>Revise os pesos-alvo e os fundamentos: lucro, dívida e payout; nos FIIs, vacância, inadimplência e P/VP.</li>
+          <li>Rebalanceie pelo aporte e evite vender: custa menos e não gera imposto.</li>
+        </ul>
+      </div>
+      <div class="panel prose">
+        <h2>Impostos (confirme com seu contador)</h2>
+        <ul>
+          <li><b>Ações:</b> vendas de até R$ 20 mil por mês são isentas de IR sobre o ganho, fora day trade. Acima disso, 15%.</li>
+          <li><b>FIIs:</b> rendimentos mensais isentos para pessoa física quando o fundo cumpre os requisitos legais. Ganho na venda de cotas: 20%.</li>
+          <li><b>Dividendos:</b> desde 2026, acima de R$ 50 mil por mês de uma mesma empresa há retenção de 10% (Lei 15.270/2025).</li>
+        </ul>
+        <h2 style="margin-top:14px">Atualização deste painel</h2>
+        <p>Os dados vêm do programa <code>rastreador.py</code> no seu computador (cotações do Yahoo Finance, com atraso). O painel mostra a última exportação; a data aparece no topo.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap" id="rodape"></footer>
+
+<script>
+(function(){
+"use strict";
+var D = null, R = null;
+var VIEWS = ["semana","carteira","aporte","recomendacoes","metodo"];
+
+function fmtN(v, c){ if (v == null || isNaN(v)) return "—"; c = (c == null ? 2 : c);
+  return Number(v).toLocaleString("pt-BR",{minimumFractionDigits:c,maximumFractionDigits:c}); }
+function brl(v){ return v == null ? "—" : "R$ " + fmtN(v); }
+function pct(v, sinal, c){ if (v == null || isNaN(v)) return "—"; sinal = sinal !== false;
+  return (sinal && v > 0 ? "+" : "") + fmtN(v*100, c == null ? 2 : c) + "%"; }
+function pp(v){ if (v == null || isNaN(v)) return "—"; return (v > 0 ? "+" : "") + fmtN(v*100, 2) + " p.p."; }
+function cls(v){ return v == null ? "" : v > 0 ? "pos" : v < 0 ? "neg" : ""; }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+function dBR(iso){ return iso ? iso.slice(8,10)+"/"+iso.slice(5,7)+"/"+iso.slice(0,4) : "—"; }
+function dCurto(iso){ return iso ? iso.slice(8,10)+"/"+iso.slice(5,7) : ""; }
+function $(id){ return document.getElementById(id); }
+function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+function chipsAlerta(lista){
+  return (lista || []).map(function(a){
+    var t = /maxima/.test(a) ? "chip pos" : "chip warn";
+    return '<span class="'+t+'">'+esc(a)+'</span>';
+  }).join("");
+}
+
+/* ---------- graficos ---------- */
+function sparkline(serie, w, h){
+  if (!serie || serie.length < 2) return "";
+  w = w || 120; h = h || 30;
+  var vals = serie.map(function(p){ return p[1]; });
+  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), amp = (hi - lo) || 1;
+  var pts = vals.map(function(v, i){ return [(i*(w-4)/(vals.length-1)+2).toFixed(1), (h-3-(v-lo)/amp*(h-6)).toFixed(1)]; });
+  var cor = vals[vals.length-1] >= vals[0] ? "var(--pos)" : "var(--neg)";
+  var linha = pts.map(function(p){ return p.join(","); }).join(" ");
+  var area = "M2,"+h+" L"+linha.replace(/ /g," L")+" L"+(w-2)+","+h+" Z";
+  var u = pts[pts.length-1];
+  return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-hidden="true">'+
+    '<path d="'+area+'" fill="'+cor+'" opacity=".12"/>'+
+    '<polyline points="'+linha+'" fill="none" stroke="'+cor+'" stroke-width="1.5"/>'+
+    '<circle cx="'+u[0]+'" cy="'+u[1]+'" r="2.5" fill="'+cor+'"/></svg>';
+}
+
+function passoBonito(bruto){
+  var p = Math.pow(10, Math.floor(Math.log10(bruto))), n = bruto / p;
+  return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p;
+}
+
+function graficoLinhas(host, rotulos, series, fmtTip){
+  var W = Math.max(300, host.clientWidth), H = W < 520 ? 220 : 280;
+  var m = {l:42, r:14, t:10, b:26};
+  var todos = [];
+  series.forEach(function(s){ s.valores.forEach(function(v){ if (v != null) todos.push(v); }); });
+  var lo = Math.min.apply(null, todos), hi = Math.max.apply(null, todos);
+  var passo = passoBonito((hi - lo) / 4 || 1);
+  lo = Math.floor(lo / passo) * passo; hi = Math.ceil(hi / passo) * passo;
+  var n = rotulos.length;
+  function x(i){ return m.l + i * (W - m.l - m.r) / (n - 1); }
+  function y(v){ return m.t + (hi - v) * (H - m.t - m.b) / (hi - lo); }
+  var s = '<svg viewBox="0 0 '+W+' '+H+'" height="'+H+'" role="img" aria-label="Gráfico de desempenho acumulado">';
+  for (var v = lo; v <= hi + 1e-9; v += passo){
+    s += '<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)"/>';
+    s += '<text x="'+(m.l-6)+'" y="'+(y(v)+4)+'" text-anchor="end">'+fmtN(v,0)+'</text>';
+  }
+  s += '<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+y(100)+'" y2="'+y(100)+'" stroke="var(--muted)" stroke-dasharray="3 3" opacity=".6"/>';
+  var cada = Math.max(1, Math.ceil(n / (W < 520 ? 4 : 7)));
+  for (var i = 0; i < n; i += cada){
+    s += '<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(dCurto(rotulos[i]))+'</text>';
+  }
+  series.forEach(function(se){
+    var d = "", ini = false;
+    se.valores.forEach(function(v, i){
+      if (v == null){ ini = false; return; }
+      d += (ini ? " L" : " M") + x(i).toFixed(1) + "," + y(v).toFixed(1); ini = true;
+    });
+    s += '<path d="'+d+'" fill="none" stroke="'+se.cor+'" stroke-width="'+(se.forte ? 2.5 : 1.75)+'" stroke-linejoin="round"/>';
+    var ult = se.valores.length - 1;
+    if (se.valores[ult] != null) s += '<circle cx="'+x(ult)+'" cy="'+y(se.valores[ult])+'" r="3.5" fill="'+se.cor+'"/>';
+  });
+  s += '<line id="cursor" x1="0" x2="0" y1="'+m.t+'" y2="'+(H-m.b)+'" stroke="var(--muted)" opacity="0"/>';
+  s += '<rect x="'+m.l+'" y="'+m.t+'" width="'+(W-m.l-m.r)+'" height="'+(H-m.t-m.b)+'" fill="transparent" class="hit"/></svg>';
+  host.innerHTML = s + '<div class="tip"></div>';
+  var svg = host.querySelector("svg"), tip = host.querySelector(".tip"), cur = host.querySelector("#cursor");
+  function mover(ev){
+    var r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width;
+    var i = Math.round((px - m.l) / ((W - m.l - m.r) / (n - 1)));
+    if (i < 0 || i >= n) return;
+    cur.setAttribute("x1", x(i)); cur.setAttribute("x2", x(i)); cur.setAttribute("opacity", ".6");
+    tip.innerHTML = fmtTip(i);
+    tip.style.display = "block";
+    var left = x(i) * r.width / W + 12;
+    if (left + tip.offsetWidth > host.clientWidth) left = x(i) * r.width / W - tip.offsetWidth - 12;
+    tip.style.left = Math.max(0, left) + "px"; tip.style.top = "8px";
+  }
+  svg.addEventListener("pointermove", mover);
+  svg.addEventListener("pointerleave", function(){ tip.style.display = "none"; cur.setAttribute("opacity","0"); });
+}
+
+/* ---------- relatorio semanal ---------- */
+function retCarteiraLabel(){ return D.modo_carteira === "posicoes" ? "Sua carteira" : "Carteira modelo"; }
+
+function renderSemana(){
+  var b = D.benchmarks, ib = b.IBOV || {}, ix = b.XFIX11 || {}, rs = D.resumo;
+  var semCart = rs.ret_semana_carteira;
+  var detCart = D.modo_carteira === "posicoes"
+    ? "Patrimônio " + brl(rs.patrimonio) + " (" + (rs.patrimonio - rs.patrimonio_semana_ant >= 0 ? "+" : "") + brl(rs.patrimonio - rs.patrimonio_semana_ant).replace("R$ -","−R$ ") + ")"
+    : "Pelos pesos-alvo, com proventos. Registre compras para ver sua posição real.";
+  $("kpis").innerHTML =
+    kpi("k-cart", retCarteiraLabel() + " na semana", pct(semCart), cls(semCart), detCart) +
+    kpi("k-ibov", "Ibovespa na semana", pct(ib.var_semana), cls(ib.var_semana), fmtN(ib.preco,0) + " pontos · 12 meses " + pct(ib.var_12m)) +
+    kpi("k-ifix", "IFIX na semana", pct(ix.ret_semana_total), cls(ix.ret_semana_total), "Via ETF XFIX11 · 12 meses " + pct(ix.var_12m)) +
+    kpi("", "Carteira menos Ibovespa", pp(semCart - ib.var_semana), cls(semCart - ib.var_semana), "Contra o IFIX: " + pp(semCart - ix.ret_semana_total));
+
+  // leitura automatica
+  var lista = D.ativos.filter(function(a){ return a.var_semana != null; });
+  var sobe = lista.filter(function(a){ return a.var_semana > 0; }).length;
+  var ord = lista.slice().sort(function(a, c){ return c.var_semana - a.var_semana; });
+  var acoes = lista.filter(function(a){ return a.tipo === "ACAO"; }), fiis = lista.filter(function(a){ return a.tipo === "FII"; });
+  function media(arr){ return arr.length ? arr.reduce(function(s, a){ return s + a.var_semana; }, 0) / arr.length : null; }
+  var provs = D.ativos.filter(function(a){ return a.proventos_recentes.some(function(p){ return p.data >= D.semana.inicio; }); });
+  var nAlert = D.ativos.reduce(function(s, a){ return s + a.alertas.length; }, 0);
+  var li = [];
+  li.push(retCarteiraLabel() + " " + (semCart >= 0 ? "subiu " : "caiu ") + pct(Math.abs(semCart), false) + " na semana, contra " + pct(ib.var_semana) + " do Ibovespa e " + pct(ix.ret_semana_total) + " do IFIX.");
+  li.push(sobe + " de " + lista.length + " ativos da carteira subiram. Variação média: ações " + pct(media(acoes)) + ", FIIs " + pct(media(fiis)) + ".");
+  if (ord.length) li.push("Maior alta: " + ord[0].ticker + " (" + pct(ord[0].var_semana) + "). Maior queda: " + ord[ord.length-1].ticker + " (" + pct(ord[ord.length-1].var_semana) + ").");
+  var ult4 = D.semanas.slice(-4), ganhou = ult4.filter(function(s){ return s.carteira != null && s.ibov != null && s.carteira > s.ibov; }).length;
+  li.push("Nas últimas 4 semanas, a carteira superou o Ibovespa em " + ganhou + ".");
+  li.push(provs.length ? provs.length + " ativo(s) tiveram data-com nesta semana: " + provs.map(function(a){ return a.ticker; }).join(", ") + "." : "Nenhum ativo da carteira teve data-com nesta semana.");
+  var emComum = D.ativos.filter(function(a){ var x = A.por[a.ticker]; return x && x.casasCompra.length >= 2; }).map(function(a){ return a.ticker; });
+  var saiu = D.ativos.filter(function(a){ var x = A.por[a.ticker]; return x && x.saidas.length; }).map(function(a){ return a.ticker; });
+  li.push(emComum.length + " de " + D.ativos.length + " ativos da carteira estão entre as compras em comum das corretoras" + (saiu.length ? ". Saíram de alguma carteira neste mês: " + saiu.join(", ") + " (veja a aba Corretoras)." : "."));
+  li.push(nAlert ? nAlert + " alerta(s) para conferir no fim da página." : "Nenhum alerta nesta semana.");
+  $("leitura").innerHTML = li.map(function(t){ return "<li>" + esc(t) + "</li>"; }).join("");
+
+  // destaques (carteira + observacao)
+  var todos = D.ativos.concat(D.observacao).filter(function(a){ return a.var_semana != null; })
+    .sort(function(a, c){ return c.var_semana - a.var_semana; });
+  var maxAbs = Math.max.apply(null, todos.map(function(a){ return Math.abs(a.var_semana); })) || 1;
+  var meus = {}; D.ativos.forEach(function(a){ meus[a.ticker] = true; });
+  function mover(a){
+    var w = Math.abs(a.var_semana) / maxAbs * 100;
+    return '<div class="mover"><b>' + esc(a.ticker) + (meus[a.ticker] ? '' : ' <span class="muted" style="font-weight:400;font-size:11px">obs.</span>') + '</b>' +
+      '<div class="bar"><span style="left:0;width:' + w.toFixed(1) + '%;background:' + (a.var_semana >= 0 ? "var(--pos)" : "var(--neg)") + '"></span></div>' +
+      '<span class="num ' + cls(a.var_semana) + '">' + pct(a.var_semana) + '</span></div>';
+  }
+  $("altas").innerHTML = todos.filter(function(a){ return a.var_semana > 0; }).slice(0, 6).map(mover).join("") || '<p class="muted">Nenhum ativo subiu.</p>';
+  $("quedas").innerHTML = todos.filter(function(a){ return a.var_semana < 0; }).reverse().slice(0, 6).map(mover).join("") || '<p class="muted">Nenhum ativo caiu.</p>';
+
+  // semana a semana
+  var linhas = D.semanas.slice(-12).reverse();
+  function heat(v){
+    if (v == null) return '<td class="heat">—</td>';
+    var a = Math.min(1, Math.abs(v) / 0.06) * 0.35;
+    var cor = v >= 0 ? "28,122,61" : "179,49,42";
+    return '<td class="heat ' + cls(v) + '" style="background:rgba(' + cor + ',' + a.toFixed(2) + ')">' + pct(v) + '</td>';
+  }
+  $("t-semanas").innerHTML = '<tr><th>Semana</th><th class="n">' + retCarteiraLabel() + '</th><th class="n">Ibovespa</th><th class="n">IFIX</th><th class="n">Carteira − Ibov</th></tr>' +
+    linhas.map(function(s){
+      var dif = (s.carteira != null && s.ibov != null) ? s.carteira - s.ibov : null;
+      return '<tr><td>' + dCurto(s.inicio) + ' a ' + dCurto(s.fim) + '</td>' + heat(s.carteira) + heat(s.ibov) + heat(s.ifix) +
+        '<td class="n ' + cls(dif) + '">' + pp(dif) + '</td></tr>';
+    }).join("");
+
+  // proventos
+  var pv = [];
+  D.ativos.concat(D.observacao).forEach(function(a){ a.proventos_recentes.forEach(function(p){ pv.push({t:a.ticker, meu:!!meus[a.ticker], d:p.data, v:p.valor, y:p.yield}); }); });
+  pv.sort(function(a, c){ return a.d < c.d ? 1 : -1; });
+  $("t-prov").innerHTML = pv.length ? '<tr><th>Ativo</th><th>Data-com</th><th class="n">Valor/cota</th><th class="n">% do preço</th></tr>' +
+    pv.map(function(p){ return '<tr><td class="tk">' + esc(p.t) + (p.meu ? '' : ' <span class="chip">obs.</span>') + '</td><td>' + dBR(p.d) + '</td><td class="n">' + fmtN(p.v, 4) + '</td><td class="n">' + pct(p.y, false) + '</td></tr>'; }).join("")
+    : '<tr><td class="muted">Nenhum provento registrado no período.</td></tr>';
+
+  // alertas
+  var al = D.ativos.filter(function(a){ return a.alertas.length; });
+  $("alertas").innerHTML = al.length ? al.map(function(a){
+    return '<div class="mover" style="grid-template-columns:70px 1fr"><b>' + esc(a.ticker) + '</b><div>' + chipsAlerta(a.alertas) + '</div></div>';
+  }).join("") : '<p class="muted">Nenhum alerta.</p>';
+}
+
+function kpi(k, lbl, val, c, det){
+  return '<div class="kpi ' + k + '"><div class="lbl">' + esc(lbl) + '</div><div class="val ' + c + '">' + esc(val) + '</div><div class="det">' + esc(det) + '</div></div>';
+}
+
+function desenharAcumulado(){
+  var host = $("ch-acum");
+  if (!host || !host.offsetParent) return;
+  var sem = D.semanas, rot = [D.semanas.length ? sem[0].inicio : ""].concat(sem.map(function(s){ return s.fim; }));
+  function acum(chave){ var v = 100, out = [100]; sem.forEach(function(s){ v = s[chave] == null ? v : v * (1 + s[chave]); out.push(v); }); return out; }
+  var series = [
+    {nome: retCarteiraLabel(), cor: css("--accent"), valores: acum("carteira"), forte: true},
+    {nome: "Ibovespa", cor: css("--s-ibov"), valores: acum("ibov")},
+    {nome: "IFIX (XFIX11)", cor: css("--s-ifix"), valores: acum("ifix")}
+  ];
+  $("leg-acum").innerHTML = series.map(function(s){
+    var u = s.valores[s.valores.length-1];
+    return '<span><i style="background:' + s.cor + '"></i>' + esc(s.nome) + ' <b class="num ' + cls(u - 100) + '">' + pct(u/100 - 1) + '</b></span>';
+  }).join("");
+  graficoLinhas(host, rot, series, function(i){
+    return '<div class="muted">' + (i === 0 ? "Início " : "Semana até ") + dBR(rot[i]) + '</div>' + series.map(function(s){
+      return '<div><i style="display:inline-block;width:10px;height:3px;background:' + s.cor + ';vertical-align:middle;margin-right:6px"></i>' + esc(s.nome) + ': <b>' + fmtN(s.valores[i], 1) + '</b></div>';
+    }).join("");
+  });
+}
+
+/* ---------- carteira ---------- */
+function renderCarteira(){
+  var rs = D.resumo, temPos = D.modo_carteira === "posicoes";
+  var res = rs.patrimonio - rs.investido;
+  $("kpis-cart").innerHTML = temPos
+    ? kpi("k-cart", "Patrimônio", brl(rs.patrimonio), "", "Investido " + brl(rs.investido)) +
+      kpi("", "Resultado", brl(res), cls(res), pct(rs.investido ? res / rs.investido : null) + " sobre o investido") +
+      kpi("", "Ativos", String(D.ativos.length), "", D.ativos.filter(function(a){return a.tipo==="ACAO";}).length + " ações e " + D.ativos.filter(function(a){return a.tipo==="FII";}).length + " FIIs")
+    : kpi("k-cart", "Carteira exemplo", D.ativos.length + " ativos", "", "Ainda sem posições registradas. Os pesos mostrados são os alvos do carteira.json.");
+
+  var alvo = D.config.alvo_classes, soma = 0, porCls = {}, total = rs.patrimonio || 0;
+  Object.keys(alvo).forEach(function(k){ soma += alvo[k]; });
+  D.ativos.forEach(function(a){ porCls[a.tipo] = (porCls[a.tipo] || 0) + a.valor; });
+  var nomes = {ACAO: "Ações", FII: "Fundos imobiliários"};
+  $("aloc").innerHTML = Object.keys(alvo).map(function(k){
+    var at = total ? (porCls[k] || 0) / total : 0, al = alvo[k] / (soma || 1);
+    return '<div class="mover" style="grid-template-columns:150px 1fr 150px"><b>' + esc(nomes[k] || k) + '</b>' +
+      '<div class="bar"><span style="left:0;width:' + (at*100).toFixed(1) + '%;background:var(--accent)"></span><span class="alvo" style="left:calc(' + (al*100).toFixed(1) + '% - 1px)"></span></div>' +
+      '<span class="num">' + (temPos ? pct(at, false, 1) + " · " : "") + 'alvo ' + pct(al, false, 0) + '</span></div>';
+  }).join("") + '<div class="sub" style="margin-top:6px">Barra azul: peso atual. Traço: alvo.</div>';
+
+  var cab = '<tr><th>Ativo</th><th class="n">Preço</th><th class="n">Semana</th><th class="n">30 dias</th><th class="n">12 meses</th><th class="n">12m c/ prov.</th><th class="n">DY 12m</th><th class="n">vs média 200d</th><th>6 meses</th>';
+  function linha(a, comPos){
+    var r = '<tr><td class="tk">' + esc(a.ticker) + '<small>' + esc((a.tipo === "FII" ? "FII" : "Ação") + (a.setor ? " · " + a.setor : "")) + '</small></td>' +
+      '<td class="n">' + fmtN(a.preco) + '</td><td class="n ' + cls(a.var_semana) + '">' + pct(a.var_semana) + '</td>' +
+      '<td class="n ' + cls(a.var_30d) + '">' + pct(a.var_30d) + '</td><td class="n ' + cls(a.var_12m) + '">' + pct(a.var_12m) + '</td>' +
+      '<td class="n ' + cls(a.ret_total_12m) + '">' + pct(a.ret_total_12m) + '</td><td class="n">' + pct(a.dy_12m, false) + '</td>' +
+      '<td class="n">' + pct(a.dist_mm200) + '</td><td>' + sparkline(a.serie) + '</td>';
+    if (comPos) r += '<td class="n">' + (temPos ? pct(a.peso_atual, false, 1) + ' / ' : '') + pct(a.peso_alvo, false, 1) + '</td>' +
+      '<td class="n">' + a.quantidade + '</td><td class="n">' + brl(a.valor) + (a.resultado != null ? '<small class="' + cls(a.resultado) + '" style="display:block">' + pct(a.resultado) + '</small>' : '') + '</td>';
+    r += '<td style="white-space:normal;min-width:180px">' + chipsAlerta(a.alertas) + '</td></tr>';
+    return r;
+  }
+  var ord = D.ativos.slice().sort(function(a, c){ return a.tipo === c.tipo ? c.peso_alvo - a.peso_alvo : (a.tipo < c.tipo ? -1 : 1); });
+  $("t-ativos").innerHTML = cab + '<th class="n">' + (temPos ? "Peso / alvo" : "Alvo") + '</th><th class="n">Qtd</th><th class="n">Valor</th><th>Alertas</th></tr>' + ord.map(function(a){ return linha(a, true); }).join("");
+  $("t-obs").innerHTML = D.observacao.length ? cab + '<th>Alertas</th></tr>' + D.observacao.map(function(a){ return linha(a, false); }).join("") : '<tr><td class="muted">Lista vazia.</td></tr>';
+}
+
+/* ---------- aporte ---------- */
+function renderAporte(){
+  var ap = D.aporte, compras = ap.itens.filter(function(i){ return i.comprar > 0; });
+  $("kpis-aporte").innerHTML =
+    kpi("k-cart", "Aporte padrão", brl(ap.valor), "", "Definido em carteira.json") +
+    kpi("", "Ativos comprados", String(compras.length), "", "de " + ap.itens.length + " na carteira") +
+    kpi("", "Sobra", brl(ap.sobra), "", "Fica para o próximo mês") +
+    kpi("", "Patrimônio depois", brl(ap.patrimonio_depois), "", "Antes: " + brl(ap.patrimonio_antes));
+  $("t-aporte").innerHTML = '<tr><th>Ativo</th><th class="n">Preço</th><th class="n">Comprar</th><th class="n">Total</th><th class="n">Peso atual</th><th class="n">Alvo</th><th class="n">Depois</th><th>Observação</th></tr>' +
+    ap.itens.map(function(i){
+      return '<tr' + (i.comprar ? '' : ' class="muted"') + '><td class="tk">' + esc(i.ticker) + '<small>' + (i.tipo === "FII" ? "FII" : "Ação") + '</small></td>' +
+        '<td class="n">' + fmtN(i.preco) + '</td><td class="n"><b>' + i.comprar + '</b></td><td class="n">' + brl(i.total) + '</td>' +
+        '<td class="n">' + pct(i.peso_atual, false, 1) + '</td><td class="n">' + pct(i.peso_alvo, false, 1) + '</td><td class="n">' + pct(i.peso_depois, false, 1) + '</td>' +
+        '<td>' + (i.obs ? '<span class="chip warn">' + esc(i.obs) + '</span>' : (i.comprar ? '' : 'fica para o próximo mês')) + '</td></tr>';
+    }).join("");
+  $("lim-mm").textContent = pct(D.config.limite_acima_mm200, false, 0);
+  $("dy-min").textContent = pct(D.config.dy_minimo_fii, false, 0);
+}
+
+/* ---------- recomendacoes ---------- */
+/* Junta todas as carteiras por ativo: em quantas casas aparece (longo/curto prazo), quem incluiu e quem retirou. */
+var A = null;
+function analisar(){
+  var por = {};
+  function reg(t, classe){ return por[t] || (por[t] = {ticker: t, classe: classe, longo: [], curto: [], entradas: [], saidas: [], ext: 0}); }
+  R.carteiras.forEach(function(c){
+    var ref = {casa: c.casa, rot: c.casa + " · " + c.nome, h: c.horizonte};
+    c.itens.forEach(function(i){ reg(i.ticker, c.classe)[c.horizonte === "curto" ? "curto" : "longo"].push(ref); });
+    (c.entradas || []).forEach(function(t){ reg(t, c.classe).entradas.push(ref); });
+    (c.saidas || []).forEach(function(s){ reg(s.ticker, c.classe).saidas.push({casa: c.casa, rot: ref.rot, h: c.horizonte, motivo: s.motivo}); });
+  });
+  (R.consensos || []).forEach(function(c){ c.itens.forEach(function(i){ var a = reg(i.ticker, "ACAO"); a.ext = Math.max(a.ext, i.indicacoes); }); });
+  function casas(l){ var s = {}; l.forEach(function(x){ s[x.casa] = 1; }); return Object.keys(s); }
+  var lista = Object.keys(por).map(function(t){
+    var a = por[t];
+    a.casasCompra = casas(a.longo.concat(a.curto));
+    a.casasEntrada = casas(a.entradas);
+    a.casasSaida = casas(a.saidas);
+    a.presente = a.longo.length + a.curto.length;
+    return a;
+  });
+  var compras = lista.filter(function(a){ return a.casasCompra.length >= 2 || a.casasEntrada.length >= 2; })
+    .sort(function(a, b){ return (b.casasCompra.length - a.casasCompra.length) || (b.casasEntrada.length - a.casasEntrada.length) || (b.ext - a.ext); });
+  var vendas = lista.filter(function(a){ return a.saidas.length; })
+    .sort(function(a, b){ return (b.casasSaida.length - a.casasSaida.length) || (a.presente - b.presente); });
+  A = {por: por, compras: compras, vendas: vendas};
+}
+
+function horizonte(a){
+  if (a.longo.length && a.curto.length) return '<span class="chip pos">Manter</span> <span class="chip">também na tática semanal</span>';
+  if (a.longo.length) return '<span class="chip pos">Manter · longo prazo</span>';
+  if (a.curto.length) return '<span class="chip warn">Curto prazo · visa venda</span>';
+  return '<span class="chip">—</span>';
+}
+function sinalVenda(a){
+  var n = a.casasSaida.length;
+  if (a.saidas.some(function(s){ return s.h === "curto"; }) && !a.longo.length) return '<span class="chip">Fim da operação de curto prazo</span>';
+  if (n >= 2 && !a.presente) return '<span class="chip neg">Venda em comum</span>';
+  if (n >= 2) return '<span class="chip neg">Saiu de ' + n + ' casas</span> <span class="chip">ainda em ' + a.presente + '</span>';
+  if (a.presente) return '<span class="chip warn">Divergência</span>';
+  return '<span class="chip">Saída isolada</span>';
+}
+
+function renderRecomendacoes(){
+  var mapa = {}, meus = {};
+  D.ativos.concat(D.observacao).forEach(function(a){ mapa[a.ticker] = a; });
+  Object.keys(D.cotacoes || {}).forEach(function(t){ mapa[t] = D.cotacoes[t]; });
+  D.ativos.forEach(function(a){ meus[a.ticker] = true; });
+  var longo = R.carteiras.filter(function(c){ return c.horizonte !== "curto"; }).length, curto = R.carteiras.length - longo;
+  var nCasas = {}; R.carteiras.forEach(function(c){ nCasas[c.casa] = 1; });
+  $("rec-aviso").textContent = "Resumo mecânico do que as corretoras publicaram em " + R.periodo + " (atualizado em " + dBR(R.atualizado_em) + "). Não é recomendação personalizada: confira a tese na fonte antes de agir. Ativos em azul estão na sua carteira.";
+  $("kpis-rec").innerHTML =
+    kpi("k-cart", "Carteiras analisadas", String(R.carteiras.length), "", Object.keys(nCasas).length + " casas · " + longo + " de longo prazo, " + curto + " de curto") +
+    kpi("", "Compras em comum", String(A.compras.length), "pos", "Em 2 ou mais casas") +
+    kpi("", "Vendas em comum", String(A.vendas.filter(function(a){ return a.casasSaida.length >= 2; }).length), "neg", "Retiradas por 2 ou mais casas") +
+    kpi("", "Na sua carteira", String(A.compras.filter(function(a){ return meus[a.ticker]; }).length), "", "das compras em comum");
+  function tk(t){ return meus[t] ? '<span class="chip mine">' + esc(t) + '</span>' : '<b>' + esc(t) + '</b>'; }
+  function cot(t){ var a = mapa[t]; return a ? '<td class="n">' + fmtN(a.preco) + '</td><td class="n ' + cls(a.var_semana) + '">' + pct(a.var_semana) + '</td><td class="n ' + cls(a.var_30d) + '">' + pct(a.var_30d) + '</td><td class="n">' + pct(a.dy_12m, false) + '</td>' : '<td class="n muted">—</td><td class="n muted">—</td><td class="n muted">—</td><td class="n muted">—</td>'; }
+  var cabCot = '<th class="n">Preço</th><th class="n">Semana</th><th class="n">30 dias</th><th class="n">DY 12m</th>';
+  function nomes(l){ return l.map(function(x){ return esc(x.rot); }).join(", "); }
+
+  $("regra-compra").textContent = "Ativo presente em carteiras de 2 ou mais casas, ou incluído por 2 ou mais casas neste período. O horizonte vem do tipo de carteira: mensal de fundamentos ou dividendos = manter; tática semanal = curto prazo, visando venda.";
+  var maxC = Math.max.apply(null, A.compras.map(function(a){ return a.casasCompra.length; })) || 1;
+  $("t-compras").innerHTML = '<tr><th>Ativo</th><th>Casas</th><th>Horizonte</th><th>Novidade</th>' + cabCot + '<th>Em quais carteiras</th></tr>' +
+    A.compras.map(function(a){
+      var nov = a.casasEntrada.length ? '<span class="chip pos">entrou em ' + a.casasEntrada.length + '</span>' : '';
+      if (a.casasSaida.length) nov += ' <span class="chip neg">saiu de ' + a.casasSaida.length + '</span>';
+      if (a.ext) nov += ' <span class="chip">' + a.ext + ' indicações no ranking</span>';
+      return '<tr><td>' + tk(a.ticker) + '</td><td><div class="wl" style="grid-template-columns:60px 22px"><div class="bar"><span style="left:0;width:' + (a.casasCompra.length / maxC * 100) + '%;background:var(--accent)"></span></div><span class="num">' + a.casasCompra.length + '</span></div></td>' +
+        '<td>' + horizonte(a) + '</td><td>' + nov + '</td>' + cot(a.ticker) +
+        '<td class="muted" style="white-space:normal;min-width:260px;font-size:13px">' + nomes(a.longo.concat(a.curto)) + '</td></tr>';
+    }).join("");
+
+  $("regra-venda").textContent = "Ativos retirados de alguma carteira neste período. Venda em comum: retirado por 2 ou mais casas e fora das demais. Divergência: uma casa tirou, outras mantêm.";
+  $("t-vendas").innerHTML = '<tr><th>Ativo</th><th>Sinal</th><th>Saiu de</th>' + cabCot + '</tr>' +
+    A.vendas.map(function(a){
+      var de = a.saidas.map(function(s){ return esc(s.rot) + (s.motivo ? ' <span class="muted">(' + esc(s.motivo) + ')</span>' : ''); }).join("<br>");
+      return '<tr><td>' + tk(a.ticker) + '</td><td>' + sinalVenda(a) + '</td><td style="white-space:normal;min-width:200px;font-size:13px">' + de + '</td>' + cot(a.ticker) + '</tr>';
+    }).join("");
+
+  var tat = R.carteiras.filter(function(c){ return c.horizonte === "curto"; });
+  $("curto").innerHTML = tat.length ? tat.map(function(c){
+    return '<h3>' + esc(c.casa) + ' · ' + esc(c.nome) + ' <span class="muted" style="font-weight:400;font-size:12px">' + dBR(c.data) + ' · <a href="' + esc(c.url) + '">fonte</a></span></h3>' +
+      '<div class="tbl"><table><tr><th>Ativo</th><th class="n">Peso</th><th></th>' + cabCot + '</tr>' +
+      c.itens.map(function(i){
+        var novo = (c.entradas || []).indexOf(i.ticker) >= 0 ? '<span class="chip pos">entrou</span>' : '';
+        return '<tr><td>' + tk(i.ticker) + '</td><td class="n">' + pct(i.peso, false, 0) + '</td><td>' + novo + '</td>' + cot(i.ticker) + '</tr>';
+      }).join("") + '</table></div>' +
+      ((c.saidas || []).length ? '<p class="sub">Saíram: ' + c.saidas.map(function(s){ return esc(s.ticker) + (s.motivo ? ' (' + esc(s.motivo) + ')' : ''); }).join("; ") + '.</p>' : '') +
+      '<p class="sub">' + esc(c.nota || "") + '</p>';
+  }).join("") + '<div class="aviso">Carteiras táticas compram visando vender em dias ou semanas, com preço-alvo e stop. São mais arriscadas e geram imposto a cada venda com lucro acima de R$ 20 mil no mês.</div>'
+    : '<p class="muted">Nenhuma carteira de curto prazo cadastrada.</p>';
+
+  $("consensos").innerHTML = (R.consensos || []).map(function(c){
+    var maxI = Math.max.apply(null, c.itens.map(function(i){ return i.indicacoes; })) || 1;
+    return '<div class="panel casa"><div><h3>' + esc(c.titulo) + '</h3><div class="meta">' + esc(c.fonte) + ' · ' + esc(c.data.length > 7 ? dBR(c.data) : c.data.slice(5,7) + "/" + c.data.slice(0,4)) + (c.total_casas ? ' · ' + c.total_casas + ' casas' : '') + ' · <a href="' + esc(c.url) + '">fonte</a></div></div><div>' +
+      c.itens.map(function(i){
+        return '<div class="wl"><span>' + tk(i.ticker) + '</span><div class="bar"><span style="left:0;width:' + (i.indicacoes / maxI * 100) + '%;background:var(--accent)"></span></div><span class="num">' + i.indicacoes + '</span></div>';
+      }).join("") + '</div>' + (c.nota ? '<div class="sub">' + esc(c.nota) + '</div>' : '') + '</div>';
+  }).join("");
+
+  $("casas").innerHTML = R.carteiras.map(function(c){
+    var cor = c.classe === "FII" ? "var(--s-ifix)" : "var(--accent)";
+    var maxP = Math.max.apply(null, c.itens.map(function(i){ return i.peso || 0; })) || 1;
+    var hz = c.horizonte === "curto" ? '<span class="chip warn">Curto prazo · ' + esc(c.frequencia) + '</span>' : '<span class="chip pos">Longo prazo · ' + esc(c.frequencia) + '</span>';
+    var trocas = ((c.entradas || []).length ? '<div class="sub">Entraram: ' + c.entradas.map(esc).join(", ") + '</div>' : '') +
+      ((c.saidas || []).length ? '<div class="sub">Saíram: ' + c.saidas.map(function(s){ return esc(s.ticker); }).join(", ") + '</div>' : '');
+    return '<div class="panel casa"><div><h3>' + esc(c.casa) + ' · ' + esc(c.nome) + '</h3><div>' + hz + (c.completa ? '' : ' <span class="chip">composição parcial</span>') + '</div><div class="meta">' + (c.classe === "FII" ? "Fundos imobiliários" : "Ações") + ' · ' + esc(c.data.length > 7 ? dBR(c.data) : c.data.slice(5,7) + "/" + c.data.slice(0,4)) + ' · <a href="' + esc(c.url) + '">fonte</a></div></div>' +
+      '<div>' + c.itens.map(function(i){
+        return '<div class="wl"><span>' + tk(i.ticker) + '</span>' + (i.peso != null ? '<div class="bar"><span style="left:0;width:' + (i.peso / maxP * 100).toFixed(1) + '%;background:' + cor + '"></span></div><span class="num">' + pct(i.peso, false, 1) + '</span>' : '<span class="muted">peso não divulgado</span><span></span>') + '</div>';
+      }).join("") + '</div>' + trocas + (c.nota ? '<div class="sub">' + esc(c.nota) + '</div>' : '') + '</div>';
+  }).join("");
+
+  $("t-sites").innerHTML = '<tr><th>Site</th><th>Tipo</th><th>Ponto forte</th><th>Limitação</th><th>Use para</th></tr>' +
+    R.sites.map(function(s){
+      return '<tr><td class="tk"><a href="' + esc(s.url) + '">' + esc(s.nome) + '</a></td><td><span class="chip">' + esc(s.tipo) + '</span></td><td style="white-space:normal;min-width:240px">' + esc(s.forte) + '</td><td style="white-space:normal;min-width:160px">' + esc(s.limite) + '</td><td style="white-space:normal;min-width:180px">' + esc(s.uso) + '</td></tr>';
+    }).join("");
+}
+
+/* ---------- navegacao ---------- */
+function mostrar(){
+  var v = location.hash.slice(1);
+  if (VIEWS.indexOf(v) < 0) v = "semana";
+  VIEWS.forEach(function(n){ $("v-" + n).classList.toggle("on", n === v); });
+  document.querySelectorAll("nav a").forEach(function(a){
+    if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  if (v === "semana") desenharAcumulado();
+}
+
+function iniciar(){
+  $("estado").remove();
+  $("subtitulo").textContent = "Semana de " + dBR(D.semana.inicio) + " a " + dBR(D.semana.fim);
+  $("gerado").textContent = "Fechamento de " + dBR(D.data_ref) + " · atualizado em " + dBR(D.gerado_em.slice(0,10)) + " às " + D.gerado_em.slice(11,16) + " · atualiza seg, qua e sex às 10h";
+  $("rodape").textContent = "Cotações do Yahoo Finance, com atraso, coletadas pelo rastreador.py. Rendimento (DY) calculado pelos proventos registrados nos últimos 12 meses; confira na página de RI ou no Status Invest. Este painel não é recomendação de investimento.";
+  analisar(); renderSemana(); renderCarteira(); renderAporte(); renderRecomendacoes();
+  mostrar();
+  window.addEventListener("hashchange", mostrar);
+  var t; window.addEventListener("resize", function(){ clearTimeout(t); t = setTimeout(desenharAcumulado, 150); });
+  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", desenharAcumulado);
+  new MutationObserver(desenharAcumulado).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
+}
+
+Promise.all([
+  fetch("dados.json", {cache: "no-store"}).then(function(r){ if (!r.ok) throw new Error("dados.json"); return r.json(); }),
+  fetch("recomendacoes.json", {cache: "no-store"}).then(function(r){ if (!r.ok) throw new Error("recomendacoes.json"); return r.json(); })
+]).then(function(res){ D = res[0]; R = res[1]; iniciar(); })
+  .catch(function(e){
+    $("estado").textContent = "Não consegui carregar " + e.message + ". No computador, rode \"py rastreador.py exportar\" e publique o painel de novo.";
+    $("subtitulo").textContent = "Dados indisponíveis";
+  });
+})();
+</script>
+</body>
+</html>

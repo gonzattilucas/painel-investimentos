@@ -1,0 +1,34 @@
+{
+  "_leia_me": "EXEMPLO DIDATICO montado com os ativos mais citados nas carteiras publicas de nov/2026 (XP, BTG, Itau BBA, Agora, Santander...). Nao e recomendacao. Troque pelos seus ativos, informe quantidade e preco_medio. peso_alvo e relativo DENTRO da classe (ACAO ou FII).",
+  "configuracao": {
+    "aporte_mensal_padrao": 1000,
+    "alvo_classes": {
+      "ACAO": 50,
+      "FII": 50
+    },
+    "limite_acima_mm200": 0.25,
+    "dy_minimo_fii": 0.08,
+    "fator_penalidade": 0.5
+  },
+  "ativos": [
+    {"ticker": "ITUB4", "tipo": "ACAO", "setor": "Bancos", "quantidade": 0, "preco_medio": 0, "peso_alvo": 2},
+    {"ticker": "PETR4", "tipo": "ACAO", "setor": "Petroleo", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "CXSE3", "tipo": "ACAO", "setor": "Seguros", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "CPLE3", "tipo": "ACAO", "setor": "Energia eletrica", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "AXIA3", "tipo": "ACAO", "setor": "Energia eletrica", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "VIVT3", "tipo": "ACAO", "setor": "Telecom", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "SBSP3", "tipo": "ACAO", "setor": "Saneamento", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "ALOS3", "tipo": "ACAO", "setor": "Shoppings", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "VALE3", "tipo": "ACAO", "setor": "Mineracao", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "KNCR11", "tipo": "FII", "setor": "Papel (CDI)", "quantidade": 0, "preco_medio": 0, "peso_alvo": 2},
+    {"ticker": "KNIP11", "tipo": "FII", "setor": "Papel (IPCA)", "quantidade": 0, "preco_medio": 0, "peso_alvo": 2},
+    {"ticker": "MCCI11", "tipo": "FII", "setor": "Papel", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "BTLG11", "tipo": "FII", "setor": "Logistica", "quantidade": 0, "preco_medio": 0, "peso_alvo": 2},
+    {"ticker": "HGLG11", "tipo": "FII", "setor": "Logistica", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "XPML11", "tipo": "FII", "setor": "Shoppings", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "VISC11", "tipo": "FII", "setor": "Shoppings", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "PVBI11", "tipo": "FII", "setor": "Lajes corporativas", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1},
+    {"ticker": "TRXF11", "tipo": "FII", "setor": "Renda urbana", "quantidade": 0, "preco_medio": 0, "peso_alvo": 1}
+  ],
+  "observacao": ["B3SA3", "PRIO3", "CSMG3", "TIMS3", "EMBJ3", "RDOR3", "ISAE4", "BRCO11", "KNSC11", "BTCI11", "VILG11", "KNHF11"]
+}
