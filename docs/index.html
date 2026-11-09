@@ -82,7 +82,8 @@ ul.leitura{margin:0;padding-left:18px;max-width:72ch} ul.leitura li{margin:4px 0
 .chart text{fill:var(--muted);font:11px var(--f-num)}
 .tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 9px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);display:none;white-space:nowrap}
 .tip b{font-family:var(--f-num);font-weight:500}
-.bar{height:8px;background:var(--soft);border-radius:4px;position:relative;min-width:80px}
+.bar{height:8px;background:var(--soft);border-radius:4px;position:relative;min-width:50px}
+.grid > *, .cards > *, section.view > *{min-width:0}
 .bar > span{position:absolute;top:0;bottom:0;border-radius:4px}
 .bar .alvo{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
 .mover{display:grid;grid-template-columns:70px 1fr 74px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:14px}
@@ -511,7 +512,7 @@ function renderCarteira(){
   var nomes = {ACAO: "Ações", FII: "Fundos imobiliários"};
   $("aloc").innerHTML = Object.keys(alvo).map(function(k){
     var at = total ? (porCls[k] || 0) / total : 0, al = alvo[k] / (soma || 1);
-    return '<div class="mover" style="grid-template-columns:150px 1fr 150px"><b>' + esc(nomes[k] || k) + '</b>' +
+    return '<div class="mover" style="grid-template-columns:minmax(0,150px) minmax(60px,1fr) auto"><b>' + esc(nomes[k] || k) + '</b>' +
       '<div class="bar"><span style="left:0;width:' + (at*100).toFixed(1) + '%;background:var(--accent)"></span><span class="alvo" style="left:calc(' + (al*100).toFixed(1) + '% - 1px)"></span></div>' +
       '<span class="num">' + (temPos ? pct(at, false, 1) + " · " : "") + 'alvo ' + pct(al, false, 0) + '</span></div>';
   }).join("") + '<div class="sub" style="margin-top:6px">Barra azul: peso atual. Traço: alvo.</div>';
