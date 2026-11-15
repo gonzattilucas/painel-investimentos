@@ -1,7 +1,7 @@
 {
   "versao": 2,
   "periodo": "novembro de 2026",
-  "atualizado_em": "2026-11-09",
+  "atualizado_em": "2026-11-15",
   "regras": {
     "horizonte": "longo = carteira mensal de fundamentos ou dividendos (comprar para manter); curto = carteira tática semanal, com preço-alvo e stop (comprar visando vender em dias ou semanas).",
     "compra_comum": "ação presente em 2 ou mais carteiras, ou incluída por 2 ou mais casas no período.",
@@ -122,15 +122,15 @@
     },
     {
       "id": "terra-semanal", "casa": "Terra", "nome": "Carteira semanal", "classe": "ACAO", "horizonte": "curto", "frequencia": "semanal",
-      "data": "2026-11-08", "completa": true,
-      "url": "https://www.seudinheiro.com/2026/mercados/carteira-da-terra-sobe-56-em-12-meses-veja-as-5-acoes-recomendadas-para-esta-semana-lefp/",
+      "data": "2026-11-14", "completa": true,
+      "url": "https://www.moneytimes.com.br/bb-seguridade-bbse3-itau-itub4-e-outras-tres-acoes-para-investir-no-curto-prazo-segundo-a-terra-investimentos-lmrs/",
       "itens": [
         {"ticker": "BBSE3", "peso": 0.20}, {"ticker": "HYPE3", "peso": 0.20}, {"ticker": "VIVT3", "peso": 0.20},
         {"ticker": "AXIA3", "peso": 0.20}, {"ticker": "ITUB4", "peso": 0.20}
       ],
-      "entradas": ["ITUB4", "AXIA3"],
-      "saidas": [{"ticker": "SUZB3", "motivo": "atingiu o preço-alvo de R$ 52,30"}, {"ticker": "MBRF3", "motivo": "acionou o stop loss"}],
-      "nota": "Seleção tática para superar o Ibovespa na semana. Ativos saem ao atingir o preço-alvo ou o stop. Alta de 56% em 12 meses, contra 8% do Ibovespa."
+      "entradas": [],
+      "saidas": [],
+      "nota": "Semana de 13 a 19/11 sem trocas (Money Times). Na semana até 12/11 a carteira subiu 2,62%, contra 3,09% do Ibovespa; melhor VIVT3 (+8,21%), pior BBSE3 (-0,58%). Alta de 56,4% em 12 meses, contra 8,7% do Ibovespa. Na semana anterior entraram ITUB4 e AXIA3 e saíram SUZB3 (alvo) e MBRF3 (stop)."
     },
     {
       "id": "btg-fii", "casa": "BTG Pactual", "nome": "Fundos imobiliários", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
@@ -173,11 +173,20 @@
     },
     {
       "id": "xp-fii", "casa": "XP", "nome": "Fundamentalista de FIIs", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
-      "data": "2026-11", "completa": false,
-      "url": "https://www.infomoney.com.br/onde-investir/carteira-recomendada-fundos-imobiliarios-novembro-2026/",
-      "itens": [{"ticker": "MXRF11", "peso": null}, {"ticker": "MCCI11", "peso": null}, {"ticker": "HSML11", "peso": null}],
+      "data": "2026-11-03", "completa": true,
+      "url": "https://melhorinvestimento.net/fundos-imobiliarios/fiis-recomendados-pela-xp-novembro-2026",
+      "itens": [
+        {"ticker": "MCCI11", "peso": 0.1025, "segmento": "Recebíveis"}, {"ticker": "KNCR11", "peso": 0.1025, "segmento": "Recebíveis"},
+        {"ticker": "XPCI11", "peso": 0.0875, "segmento": "Recebíveis"}, {"ticker": "RBRR11", "peso": 0.08, "segmento": "Recebíveis"},
+        {"ticker": "PCIP11", "peso": 0.045, "segmento": "Recebíveis"}, {"ticker": "MXRF11", "peso": 0.045, "segmento": "Recebíveis"},
+        {"ticker": "XPLG11", "peso": 0.0975, "segmento": "Logística"}, {"ticker": "BTLG11", "peso": 0.045, "segmento": "Logística"},
+        {"ticker": "BRCO11", "peso": 0.04, "segmento": "Logística"}, {"ticker": "LVBI11", "peso": 0.015, "segmento": "Logística"},
+        {"ticker": "PVBI11", "peso": 0.035, "segmento": "Lajes"}, {"ticker": "XPML11", "peso": 0.105, "segmento": "Shoppings"},
+        {"ticker": "HGBS11", "peso": 0.02, "segmento": "Shoppings"}, {"ticker": "HSML11", "peso": 0.01, "segmento": "Shoppings"},
+        {"ticker": "RBRX11", "peso": 0.09, "segmento": "Multiestratégia"}, {"ticker": "CPTS11", "peso": 0.08, "segmento": "Multiestratégia"}
+      ],
       "entradas": ["MXRF11"], "saidas": [],
-      "nota": "Relatório da XP é exclusivo para clientes; trocas segundo a InfoMoney. Incluiu MXRF11, aumentou MCCI11, reduziu HSML11 em 1 ponto e diminuiu a exposição a fundos de tijolo."
+      "nota": "Fonte secundária (Melhor Investimento, 11/11), pois o relatório da XP é exclusivo para clientes. 16 fundos, 46,25% em recebíveis. Incluiu MXRF11 (4,5%), aumentou MCCI11 e reduziu HGBS11, LVBI11, PVBI11, HSML11, RBRX11 e KNCR11. XPML11 está como 'restrito'."
     }
   ],
   "consensos": [
