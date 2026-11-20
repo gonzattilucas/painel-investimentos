@@ -1,7 +1,7 @@
 {
   "versao": 2,
   "periodo": "novembro de 2026",
-  "atualizado_em": "2026-11-15",
+  "atualizado_em": "2026-11-20",
   "regras": {
     "horizonte": "longo = carteira mensal de fundamentos ou dividendos (comprar para manter); curto = carteira tática semanal, com preço-alvo e stop (comprar visando vender em dias ou semanas).",
     "compra_comum": "ação presente em 2 ou mais carteiras, ou incluída por 2 ou mais casas no período.",
@@ -52,15 +52,16 @@
     },
     {
       "id": "itaubba-acoes", "casa": "Itaú BBA", "nome": "Carteira recomendada", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
-      "data": "2026-11", "completa": false,
-      "url": "https://br.advfn.com/jornal/2026/11/carteiras-recomendadas-de-acoes-para-novembro-de-2026-e-rank",
+      "data": "2026-11-19", "completa": true,
+      "url": "https://acritica.net/noticias/itau-bba-preve-alta-de-14-na-bolsa-ate-2027-mas-alerta-para-riscos-economicos/",
       "itens": [
-        {"ticker": "PETR4", "peso": 0.15}, {"ticker": "SBSP3", "peso": null}, {"ticker": "AXIA3", "peso": null},
-        {"ticker": "MULT3", "peso": null}, {"ticker": "CPFE3", "peso": null}, {"ticker": "CURY3", "peso": null},
-        {"ticker": "WEGE3", "peso": null}, {"ticker": "EMBJ3", "peso": null}, {"ticker": "RDOR3", "peso": null}
+        {"ticker": "PETR4", "peso": 0.15}, {"ticker": "SBSP3", "peso": 0.10}, {"ticker": "CPLE3", "peso": null},
+        {"ticker": "MULT3", "peso": 0.10}, {"ticker": "CPFE3", "peso": 0.10}, {"ticker": "XPBR31", "peso": 0.10},
+        {"ticker": "WEGE3", "peso": 0.10}, {"ticker": "EMBJ3", "peso": 0.10}, {"ticker": "RDOR3", "peso": 0.10},
+        {"ticker": "CURY3", "peso": 0.05}
       ],
-      "entradas": [], "saidas": [],
-      "nota": "Segundo resumo da ADVFN. Pesos de 5% a 15%; a lista também cita XP Inc."
+      "entradas": ["CPLE3"], "saidas": [{"ticker": "AXIA3"}],
+      "nota": "Brazil Buy List revista em 19/11 (A Crítica): Copel entrou no lugar da Axia, por resultados previsíveis e dívida controlada (dividendos estimados de 6% em 2027 e 7% em 2028). A matéria não traz pesos; os demais pesos são os da versão de 29/10 (Money Times) e o da Copel não foi divulgado. O banco projeta Ibovespa a 195 mil pontos no fim de 2027."
     },
     {
       "id": "itau-dividendos", "casa": "Itaú", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
@@ -91,12 +92,17 @@
     },
     {
       "id": "safra-top10", "casa": "Safra", "nome": "Top 10 Ações", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
-      "data": "2026-11", "completa": false,
-      "url": "https://oespecialista.safra.com.br/carteira-safra-novembro-2026-ajustes-dividendos/",
-      "itens": [{"ticker": "SUZB3", "peso": null}, {"ticker": "ENEV3", "peso": null}, {"ticker": "TIMS3", "peso": null}, {"ticker": "ITSA4", "peso": null}],
+      "data": "2026-11-04", "completa": true,
+      "url": "https://www.moneyreport.com.br/economia/dividendos-ganham-protagonismo-na-carteira-recomendada-do-safra-para-novembro/",
+      "itens": [
+        {"ticker": "ITSA4", "peso": 0.15}, {"ticker": "WEGE3", "peso": null}, {"ticker": "CXSE3", "peso": null},
+        {"ticker": "PETR4", "peso": null}, {"ticker": "IGTI11", "peso": null}, {"ticker": "ENEV3", "peso": null},
+        {"ticker": "EQTL3", "peso": null}, {"ticker": "TIMS3", "peso": null}, {"ticker": "SUZB3", "peso": null},
+        {"ticker": "VALE3", "peso": null}
+      ],
       "entradas": ["SUZB3", "ENEV3", "TIMS3", "ITSA4"],
       "saidas": [{"ticker": "GGBR4"}, {"ticker": "CPLE3"}, {"ticker": "RDOR3"}, {"ticker": "B3SA3"}],
-      "nota": "Só as trocas foram obtidas: Suzano no lugar de Gerdau, Eneva no de Copel, TIM no de Rede D'Or e Itaúsa no de B3. Ênfase em dividendos."
+      "nota": "Fonte secundária (Money Report, 04/11), que lista as 10 empresas pelo nome; tickers atribuídos pelo nome da empresa. Só o peso da Itaúsa (15%, maior posição) foi divulgado. Suzano no lugar de Gerdau, Eneva no de Copel, TIM no de Rede D'Or e Itaúsa no de B3. Ênfase em dividendos; beta de 0,91."
     },
     {
       "id": "agora-dividendos", "casa": "Ágora", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
@@ -121,6 +127,32 @@
       "nota": "Segundo resumo da ADVFN."
     },
     {
+      "id": "genial-top-acoes", "casa": "Genial", "nome": "Top Ações", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-11-03", "completa": false,
+      "url": "https://gazetamercantil.com/petrobras-petr4-acoes-mais-recomendadas-novembro-2026",
+      "itens": [
+        {"ticker": "SUZB3", "peso": null}, {"ticker": "VALE3", "peso": null}, {"ticker": "PRIO3", "peso": null},
+        {"ticker": "MBRF3", "peso": null}, {"ticker": "SLCE3", "peso": null}, {"ticker": "ITUB4", "peso": null},
+        {"ticker": "EMBJ3", "peso": null}, {"ticker": "WEGE3", "peso": null}
+      ],
+      "entradas": ["SUZB3", "VALE3", "PRIO3", "MBRF3", "SLCE3", "ITUB4", "EMBJ3", "WEGE3"],
+      "saidas": [{"ticker": "PETR4"}, {"ticker": "SBSP3"}],
+      "nota": "Fonte secundária (Gazeta Mercantil, 09/11); a página da Genial não abriu. Só as trocas foram obtidas: commodities subiram de 15% para 31%. Saíram Petrobras (10%) e Sabesp (5%). Pesos individuais não divulgados."
+    },
+    {
+      "id": "santander-dividendos", "casa": "Santander", "nome": "Dividendos", "classe": "ACAO", "horizonte": "longo", "frequencia": "mensal",
+      "data": "2026-10-30", "completa": false,
+      "url": "https://investimentos.santander.com.br/materiais/relatorios/Carteira-Dividendos.pdf",
+      "itens": [
+        {"ticker": "ALOS3", "peso": null}, {"ticker": "AXIA3", "peso": null}, {"ticker": "BPAC11", "peso": null},
+        {"ticker": "CPLE3", "peso": null}, {"ticker": "VIVT3", "peso": null}, {"ticker": "VALE3", "peso": null},
+        {"ticker": "VBBR3", "peso": null}, {"ticker": "CURY3", "peso": null}, {"ticker": "ITUB4", "peso": null},
+        {"ticker": "PETR3", "peso": null}
+      ],
+      "entradas": [], "saidas": [],
+      "nota": "Relatório de novembro (30/10). O PDF respondeu 403; a lista de ativos vem do trecho do PDF mostrado na busca e não foi conferida no documento. Pesos e trocas não obtidos. Rentabilidade de 8,67% em 2026, contra 4,55% do Ibovespa."
+    },
+    {
       "id": "terra-semanal", "casa": "Terra", "nome": "Carteira semanal", "classe": "ACAO", "horizonte": "curto", "frequencia": "semanal",
       "data": "2026-11-14", "completa": true,
       "url": "https://www.moneytimes.com.br/bb-seguridade-bbse3-itau-itub4-e-outras-tres-acoes-para-investir-no-curto-prazo-segundo-a-terra-investimentos-lmrs/",
@@ -130,7 +162,7 @@
       ],
       "entradas": [],
       "saidas": [],
-      "nota": "Semana de 13 a 19/11 sem trocas (Money Times). Na semana até 12/11 a carteira subiu 2,62%, contra 3,09% do Ibovespa; melhor VIVT3 (+8,21%), pior BBSE3 (-0,58%). Alta de 56,4% em 12 meses, contra 8,7% do Ibovespa. Na semana anterior entraram ITUB4 e AXIA3 e saíram SUZB3 (alvo) e MBRF3 (stop)."
+      "nota": "Semana de 13 a 19/11 sem trocas (Money Times); a carteira de 20 a 26/11 ainda não tinha sido publicada em 20/11. Na semana até 12/11 a carteira subiu 2,62%, contra 3,09% do Ibovespa; melhor VIVT3 (+8,21%), pior BBSE3 (-0,58%). Alta de 56,4% em 12 meses, contra 8,7% do Ibovespa. Na semana anterior entraram ITUB4 e AXIA3 e saíram SUZB3 (alvo) e MBRF3 (stop)."
     },
     {
       "id": "btg-fii", "casa": "BTG Pactual", "nome": "Fundos imobiliários", "classe": "FII", "horizonte": "longo", "frequencia": "mensal",
@@ -219,6 +251,16 @@
         {"ticker": "KNHF11", "indicacoes": 4}, {"ticker": "XPML11", "indicacoes": 4}
       ],
       "nota": "FIIs de papel (recebíveis) voltam à preferência após as eleições."
+    },
+    {
+      "titulo": "Ações mais indicadas (15 instituições)", "fonte": "Gazeta Mercantil", "data": "2026-11-09", "total_casas": 15,
+      "url": "https://gazetamercantil.com/petrobras-petr4-acoes-mais-recomendadas-novembro-2026",
+      "itens": [
+        {"ticker": "PETR4", "indicacoes": 12}, {"ticker": "SBSP3", "indicacoes": 11}, {"ticker": "EMBJ3", "indicacoes": 10},
+        {"ticker": "VALE3", "indicacoes": 9}, {"ticker": "ITUB4", "indicacoes": 8}, {"ticker": "WEGE3", "indicacoes": 8},
+        {"ticker": "CXSE3", "indicacoes": 8}
+      ],
+      "nota": "55 ações citadas no total."
     },
     {
       "titulo": "Ranking de indicações", "fonte": "ADVFN", "data": "2026-11", "total_casas": null,
